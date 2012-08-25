@@ -20,6 +20,11 @@ Features
 * Optionally sort dictionary keys in JSON output
 * Optional pretty-printing of JSON output
 
+Changes in comparison to the original SBJson repo
+--------
+
+* Support for converting NSDate to JSON text (as a string with seconds since epoc)
+
 Links
 =====
 
