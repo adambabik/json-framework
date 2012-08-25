@@ -77,4 +77,12 @@
 	STAssertEqualObjects(streamWriter.error, @"Stream is closed", nil);
 }
 
+- (void)testDate {
+ 	NSTimeInterval interval = 319670801.45073098; // seconds since epoc
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSArray *array = [NSArray arrayWithObject:date];
+    
+    STAssertEqualObjects(@"[319670801]", [writer stringWithObject:array], nil);
+}
+
 @end

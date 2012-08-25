@@ -228,7 +228,10 @@ static NSNumber *kNegativeInfinity;
 
 	} else if ([o isKindOfClass:[NSNull class]]) {
 		return [self writeNull];
-
+        
+    }else if ([o isKindOfClass:[NSDate class]]) {
+        return [self writeDate:o];
+        
 	} else if ([o respondsToSelector:@selector(proxyForJson)]) {
 		return [self writeValue:[o proxyForJson]];
 
@@ -365,6 +368,21 @@ static const char *strForChar(int c) {
 	[delegate writer:self appendBytes:num length: len];
 	[state transitionState:self];
 	return YES;
+}
+
+- (BOOL)writeDate:(NSDate *)aDate
+{
+    if ([state isInvalidState:self]) return NO;
+	if ([state expectingKey:self]) return NO;
+    
+    [state appendSeparator:self];
+	if (humanReadable) [state appendWhitespace:self];
+    
+    char const *utf8 = [[NSString stringWithFormat:@"%.0f", [aDate timeIntervalSince1970]] UTF8String];
+    
+    [delegate writer:self appendBytes:utf8 length: strlen(utf8)];
+	[state transitionState:self];
+    return YES;
 }
 
 @end
